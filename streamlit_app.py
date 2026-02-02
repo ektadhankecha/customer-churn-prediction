@@ -6,6 +6,12 @@ MODEL_PATH = "models/churn_model.pkl"
 FEATURES_PATH = "data/processed/feature_names.csv"
 ENCODERS_PATH = "data/processed/label_encoders.pkl"
 
+st.set_page_config(
+    page_title="Customer Churn Prediction",
+    page_icon="📉",
+    layout="centered"
+)
+
 @st.cache_resource
 def load_model():
     return joblib.load(MODEL_PATH)
