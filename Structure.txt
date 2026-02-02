@@ -4,12 +4,14 @@ customer-churn-prediction/
 │   ├── raw/
 │   └── processed/
 │
-├── src/
-│   ├── data_loader.py
-│   ├── preprocess.py
-│   ├── train.py
-│   └── evaluate.py
+├── models/
 │
+├── src/
+│   ├── data_loader.py   ✅
+│   ├── preprocess.py   ⬅️ NEXT
+│   ├── train.py
+│   ├── evaluate.py
+│
+├── streamlit_app.py
 ├── requirements.txt
-├── README.md
-└── .gitignore
+└── README.md
