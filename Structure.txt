@@ -1,0 +1,15 @@
+customer-churn-prediction/
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── src/
+│   ├── data_loader.py
+│   ├── preprocess.py
+│   ├── train.py
+│   └── evaluate.py
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
