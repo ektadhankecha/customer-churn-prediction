@@ -50,6 +50,7 @@ def preprocess_data():
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
+    joblib.dump(scaler, f"{PROCESSED_DATA_PATH}/scaler.pkl")
 
     # Save processed data
     pd.DataFrame(X_train_scaled, columns=X.columns).to_csv(
