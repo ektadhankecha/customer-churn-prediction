@@ -30,9 +30,9 @@ def load_features():
 def load_scaler():
     if not os.path.exists(SCALER_PATH):
         raise FileNotFoundError(
-            f\"Missing file: '{SCALER_PATH}'.\\n\\n\"
-            \"Fix: run `python src/preprocess.py` locally to generate it, then commit/push it to GitHub.\\n\"
-            \"Streamlit Cloud can only read files that exist in your repo.\"
+            f"Missing file: '{SCALER_PATH}'.\n\n"
+            "Fix: run `python src/preprocess.py` locally to generate it, then commit/push it to GitHub.\n"
+            "Streamlit Cloud can only read files that exist in your repo."
         )
     return joblib.load(SCALER_PATH)
 
