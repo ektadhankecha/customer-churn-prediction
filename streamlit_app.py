@@ -5,6 +5,7 @@ import joblib
 MODEL_PATH = "models/churn_model.pkl"
 FEATURES_PATH = "data/processed/feature_names.csv"
 ENCODERS_PATH = "data/processed/label_encoders.pkl"
+SCALER_PATH = "data/processed/scaler.pkl"
 
 st.set_page_config(
     page_title="Customer Churn Prediction",
@@ -24,11 +25,14 @@ def load_encoders():
 def load_features():
     return pd.read_csv(FEATURES_PATH, header=None)[0].tolist()
 
+@st.cache_resource
+def load_scaler():
+    return joblib.load(SCALER_PATH)
+
 model = load_model()
 encoders = load_encoders()
 feature_names = load_features()
-
-st.set_page_config(page_title="Customer Churn Prediction", layout="centered")
+scaler = load_scaler()
 
 st.title("📉 Customer Churn Prediction")
 st.write("Fill in customer details to predict whether the customer is likely to leave the service.")
@@ -139,17 +143,20 @@ st.markdown("---")
 
 if st.button("🔍 Predict Churn"):
     input_df = pd.DataFrame([user_input])
-
-    prediction = model.predict(input_df)[0]
-    probability = model.predict_proba(input_df)[0][1]
+    input_scaled = scaler.transform(input_df)
+    input_scaled_df = pd.DataFrame(input_scaled, columns=feature_names)
+    prediction = model.predict(input_scaled_df)[0]
+    probability = model.predict_proba(input_scaled_df)[0][1]
 
     if prediction == 1:
         st.error(
+            f"**Prediction: 1** (Churn)\n\n"
             f"⚠️ This customer is likely to churn.\n\n"
-            f"Estimated probability: {probability:.2f}"
+            f"Churn probability: {probability:.2f}"
         )
     else:
         st.success(
+            f"**Prediction: 0** (No churn)\n\n"
             f"✅ This customer is not likely to churn.\n\n"
-            f"Estimated probability: {probability:.2f}"
+            f"Churn probability: {probability:.2f}"
         )
