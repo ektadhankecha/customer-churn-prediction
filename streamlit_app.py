@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import os
 
 MODEL_PATH = "models/churn_model.pkl"
 FEATURES_PATH = "data/processed/feature_names.csv"
@@ -27,6 +28,12 @@ def load_features():
 
 @st.cache_resource
 def load_scaler():
+    if not os.path.exists(SCALER_PATH):
+        raise FileNotFoundError(
+            f\"Missing file: '{SCALER_PATH}'.\\n\\n\"
+            \"Fix: run `python src/preprocess.py` locally to generate it, then commit/push it to GitHub.\\n\"
+            \"Streamlit Cloud can only read files that exist in your repo.\"
+        )
     return joblib.load(SCALER_PATH)
 
 model = load_model()
