@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 import joblib
 import pandas as pd
@@ -91,6 +92,43 @@ st.write("Fill in customer details to predict whether the customer is likely to 
 
 st.markdown("---")
 st.subheader("🧾 Customer Information")
+
+GRAPH_OPTIONS = {
+    "Univariate Analysis": {
+        "script": "src/graphs_univariate.py",
+        "image": "data/graphs/univariate.png",
+    },
+    "Categorical Analysis": {
+        "script": "src/graphs_categorical.py",
+        "image": "data/graphs/categorical.png",
+    },
+    "Bivariate Analysis": {
+        "script": "src/graphs_bivariate.py",
+        "image": "data/graphs/bivariate.png",
+    },
+    "Correlation + Outlier": {
+        "script": "src/graphs_corr_outlier.py",
+        "image": "data/graphs/correlation_outlier.png",
+    },
+}
+
+with st.expander("📊 Graph Explorer"):
+    selected_graph = st.selectbox(
+        "Select graph type",
+        list(GRAPH_OPTIONS.keys()),
+        index=0,
+    )
+
+    if st.button("Show Selected Graph"):
+        graph_meta = GRAPH_OPTIONS[selected_graph]
+        try:
+            subprocess.run(["python", graph_meta["script"]], check=True)
+            if os.path.exists(graph_meta["image"]):
+                st.image(graph_meta["image"], use_container_width=True)
+            else:
+                st.error("Graph image not found after script execution.")
+        except subprocess.CalledProcessError:
+            st.error("Failed to run graph script. Please check dataset and dependencies.")
 
 with st.expander("✅ Quick self-test (optional)"):
     st.write("This checks that the model can load and produce predictions on sample rows.")
