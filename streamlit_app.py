@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 
 import joblib
 import pandas as pd
@@ -122,7 +123,7 @@ with st.expander("📊 Graph Explorer"):
     if st.button("Show Selected Graph"):
         graph_meta = GRAPH_OPTIONS[selected_graph]
         try:
-            subprocess.run(["python", graph_meta["script"]], check=True)
+            subprocess.run([sys.executable, graph_meta["script"]], check=True)
             if os.path.exists(graph_meta["image"]):
                 st.image(graph_meta["image"], use_container_width=True)
             else:
