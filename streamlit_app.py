@@ -125,7 +125,7 @@ with st.expander("📊 Graph Explorer"):
         try:
             subprocess.run([sys.executable, graph_meta["script"]], check=True)
             if os.path.exists(graph_meta["image"]):
-                st.image(graph_meta["image"], use_container_width=True)
+                st.image(graph_meta["image"], use_column_width=True)
             else:
                 st.error("Graph image not found after script execution.")
         except subprocess.CalledProcessError:
